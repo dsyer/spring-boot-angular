@@ -1,27 +1,130 @@
-# Client
+```
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <nodeVersion>v8.8.1</nodeVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+```
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
+```
+$ mvn generate-resources
+$ cat > npm
+#!/bin/sh
+PATH="$PWD/node/":$PATH
+node "node/node_modules/npm/bin/npm-cli.js" "$@"
+$ chmod +x npm
+$ ./npm install @angular/cli
+```
 
-## Development server
+and run `mvn generate-resources` again.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```
+$ cat > ng
+#!/bin/sh
+PATH="$PWD/node/":$PATH
+node_modules/@angular/cli/bin/ng "$@"
+$ chmod +x ng
+$ ./ng --version
+    _                      _                 ____ _     ___
+   / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+  / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+ / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+/_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+               |___/
+@angular/cli: 1.4.9
+node: 8.8.1
+os: linux x64
+```
 
-## Code scaffolding
+No create an angular app:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+$ ./ng new client
+$ rm -rf client/node*
+$ mv client/src tmp
+$ mv client/* client/.??* .
+$ rm -rf client
+$ mv tmp client
+$ sed -i -e 's,src,client,' .angular-cli.json
+```
 
-## Build
+Add
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+```
+                    <execution>
+                        <id>npm-install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+```
 
-## Running unit tests
+Install the modules again using `mvn generate-resources`.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+$ ./ng version
+    _                      _                 ____ _     ___
+   / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+  / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+ / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+/_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+               |___/
+@angular/cli: 1.4.9
+node: 8.8.1
+os: linux x64
+@angular/animations: 4.4.6
+@angular/common: 4.4.6
+@angular/compiler: 4.4.6
+@angular/core: 4.4.6
+@angular/forms: 4.4.6
+@angular/http: 4.4.6
+@angular/platform-browser: 4.4.6
+@angular/platform-browser-dynamic: 4.4.6
+@angular/router: 4.4.6
+@angular/cli: 1.4.9
+@angular/compiler-cli: 4.4.6
+@angular/language-service: 4.4.6
+typescript: 2.3.4
+```
 
-## Running end-to-end tests
+And the tests work:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+$ ./ng e2e
+...
+[13:59:46] I/direct - Using ChromeDriver directly...
+Jasmine started
 
-## Further help
+  client App
+    ✓ should display welcome message
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Executed 1 of 1 spec SUCCESS in 0.718 sec.
+[13:59:48] I/launcher - 0 instance(s) of WebDriver still running
+[13:59:48] I/launcher - chrome #01 passed
+```
