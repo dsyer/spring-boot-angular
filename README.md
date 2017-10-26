@@ -63,7 +63,7 @@ Now create an angular app:
 
 ```
 $ ./ng new client
-$ rm -rf client/node*
+$ rm -rf client/node* client/src/favicon.ico
 $ mv client src/main
 $ sed -i -e 's,dist,../../../target/classes/static,' src/main/client/.angular-cli.json
 $ mv ng npm src/main/client
@@ -151,3 +151,23 @@ Add
 ```
 
 and then the client app will be compiled during the Maven build.
+
+https://medium.com/codingthesmartway-com-blog/using-bootstrap-with-angular-c83c3cee3f4a
+
+```
+$ cd src/main/client
+$ ./npm install bootstrap@3 jquery --save
+```
+
+and update `.angular-cli.json` to add the new content:
+
+```
+  "styles": [
+    "styles.css",
+    "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+  ],
+  "scripts": [
+    "../node_modules/jquery/dist/jquery.min.js",
+    "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+  ],
+```
