@@ -69,6 +69,7 @@ $ mv client/* client/.??* .
 $ rm -rf client
 $ mv tmp client
 $ sed -i -e 's,src,client,' .angular-cli.json
+$ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
 ```
 
 Add
@@ -116,8 +117,8 @@ typescript: 2.3.4
 And the tests work:
 
 ```
-$ ./ng e2e
-...
+$ ./ng e2e.
+..
 [13:59:46] I/direct - Using ChromeDriver directly...
 Jasmine started
 
@@ -128,3 +129,20 @@ Executed 1 of 1 spec SUCCESS in 0.718 sec.
 [13:59:48] I/launcher - 0 instance(s) of WebDriver still running
 [13:59:48] I/launcher - chrome #01 passed
 ```
+
+Add
+
+```
+                    <execution>
+                        <id>npm-build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run-script build</arguments>
+                        </configuration>
+                    </execution>
+
+```
+
+and then the client app will be compiled during the Maven build.
