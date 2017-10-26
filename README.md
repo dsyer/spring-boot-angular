@@ -59,20 +59,25 @@ node: 8.8.1
 os: linux x64
 ```
 
-No create an angular app:
+Now create an angular app:
 
 ```
 $ ./ng new client
 $ rm -rf client/node*
-$ mv client/src tmp
-$ mv client/* client/.??* .
-$ rm -rf client
-$ mv tmp client
-$ sed -i -e 's,src,client,' .angular-cli.json
-$ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
+$ mv client src/main
+$ sed -i -e 's,dist,../../../target/classes/static,' src/main/client/.angular-cli.json
+$ mv ng npm src/main/client
 ```
 
 Add
+
+```
+                <configuration>
+                    <workingDirectory>src/main/client</workingDirectory>
+                </configuration>
+```
+
+and
 
 ```
                     <execution>
@@ -89,7 +94,7 @@ Add
 Install the modules again using `mvn generate-resources`.
 
 ```
-$ ./ng version
+$ (cd src/main/client; ./ng version)
     _                      _                 ____ _     ___
    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
@@ -117,7 +122,7 @@ typescript: 2.3.4
 And the tests work:
 
 ```
-$ ./ng e2e.
+$ (cd src/main/client; ./ng e2e.)
 ..
 [13:59:46] I/direct - Using ChromeDriver directly...
 Jasmine started
