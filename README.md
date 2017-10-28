@@ -2,7 +2,18 @@
 
 Spring Boot works great as a back end for an Angular application but it can be difficult to get the ball rolling. Most Spring users are comfortable with Java and the tools that are used to create and build the backend server. The front end can be written with plain old JavaScript as long as it is relatively simple, and you are willing to search for the rare examples and tutorials in this style. But these days you are much more likely to find documentation and tutorials that use tools like `Typescript`, `node.js`, `npm` and the Angular CLI.
 
-This article shows you how to do that and keep your Spring Boot roots. Much of the advice would apply equally well to other front end frameworks (anything that can be built using `npm` or similar). We use Maven, but similar tools are available for Gradle users. The goal is to have a single application that has Spring Boot and Angular, that can be built and developed by anyone who has knowledge of either ecosystem, and does not feel awkward or unidiomatic to either.
+This article shows you how to do that and keep your Spring Boot application intact. Much of the advice would apply equally well to other front end frameworks (anything that can be built using `npm` or similar). We use Maven, but similar tools are available for Gradle users. The goal is to have a single application that has Spring Boot and Angular, that can be built and developed by anyone who has knowledge of either ecosystem, and does not feel awkward or unidiomatic to either.
+
+## Create a Spring Boot Application
+
+Whatever you normally do to create a new Spring Boot application, do that. For example you could use your IDE features. Or you could do it on the command line:
+
+```
+$ curl start.spring.io/starter.tgz -d dependencies=web | tar -zxvf -
+$ ./mvnw install
+```
+
+Now we'll take that application and add some Angular scaffolding. Before we can do anything with Angular, we have to install `npm`.
 
 ## Install Npm Locally
 
@@ -42,7 +53,7 @@ Installing `npm` is fraught with issues, including but not limited to how to get
 and then
 
 ```
-$ mvn generate-resources
+$ ./mvnw generate-resources
 $ ls node*
 ```
 
@@ -90,7 +101,7 @@ os: linux x64
 
 ## Create an Angular App
 
-The Angular CLI can be used to generate new application scaffolding, as well as other things. It's a useful starting point, but you could at this point grab any existing Angular app and put it in the same place. We want to work with the Angular app in a subdirectory of `src/main`, just to keep the source code tidy and make it look like a Maven build.
+The Angular CLI can be used to generate new application scaffolding, as well as other things. It's a useful starting point, but you could at this point grab any existing Angular app and put it in the same place. We want to work with the Angular app in a subdirectory of `src/main`, just to keep the source code tidy and make it look like a regular Maven build.
 
 Create the app with the CLI and move it to `src/main`:
 
@@ -123,7 +134,7 @@ and add an execution to install the modules used in the application:
 </execution>
 ```
 
-Install the modules again using `mvn generate-resources`.
+Install the modules again using `./mvnw generate-resources`.
 
 ```
 $ src/main/client/ng version
@@ -298,3 +309,9 @@ public class DemoApplication {
 
 }
 ```
+
+If you look at the source code [in Github](https://github.com/dsyer/spring-boot-angular) you will also notice that there is a test for the backend interaction in `app.component.spec.ts`. The `pom.xml` has been modified to run the Angular e2e tests at the same time as the Java tests.
+
+## Conclusion
+
+We have created a Spring Boot application, added a simple HTTP endpoint to it, and then added a front end to it using Angular. The Angular app is self-contained, so anyone who knows the tools can work with it from its own directory. The Spring Boot application folds the Angular assets into its build and a developer can easily update and test the front end from a regular IDE by running the app in the usual way.
