@@ -206,6 +206,27 @@ Updates are built (quickly) and pushed to `target/classes` where they can be pic
 
 That's it really, but we can quickly look into a couple of extra things that will get you off the ground quickly with Spring Boot and Angular.
 
+### VSCode
+
+https://code.visualstudio.com/[Microsoft VSCode] is quite a good tool for developing JavaScript applications, and it also has good support for Java and Spring Boot. If you install the "Java Extension Pack" (from Microsoft), the "Angular Essentials" (from Jon Papa) and the "Latest TypeScript and JavaScript Grammar" (from Microsoft) you will be able to do code completion and source navigation in the Angular app (all those extensions and discoverable from the IDE). There are also some Spring Boot features that you need to download and install (in Extensions view click on top right and choose `Install from VSIX...`) at http://dist.springsource.com/snapshot/STS4/nightly-distributions.html.
+
+What VSCode doesn't have currently is automatic detection of `npm` build tools in *subdirectories* (and ours is in `src/main/client`). So to build from the IDE you need to add a `.vscode/tasks.json` something like this:
+
+```
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ng-build",
+            "type": "shell",
+            "command": "src/main/client/ng build"
+        }
+    ]
+}
+```
+
+With that in place your `Tasks->Run Task...` menu should include the `ng-build` option, and it will run the angular build for you. You could add other entries for running tests.
+
 ## Adding Bootstrap
 
 You can add basic Twitter Bootstrap features to make the app look a bit less dull (taken from [this blog](https://medium.com/codingthesmartway-com-blog/using-bootstrap-with-angular-c83c3cee3f4a)):
