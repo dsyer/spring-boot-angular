@@ -1,6 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     const http = TestBed.get(HttpTestingController);
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    http.expectOne('resource').flush({id:'XYZ',content:'Hello'});
+    http.expectOne('resource').flush({id: 'XYZ', content: 'Hello'});
     expect(app.data.content).toContain('Hello');
   }));
 });
