@@ -88,7 +88,7 @@ PATH="$PWD/node/":$PWD:$PATH
 node_modules/@angular/cli/bin/ng "$@"
 $ chmod +x ng
 $ ./ng --version
-_                      _                 ____ _     ___
+    _                      _                 ____ _     ___
    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
@@ -101,29 +101,25 @@ os: linux x64
 
 ## Create an Angular App
 
-The Angular CLI can be used to generate new application scaffolding, as well as other things. It's a useful starting point, but you could at this point grab any existing Angular app and put it in the same place. We want to work with the Angular app in a subdirectory of `src/main`, just to keep the source code tidy and make it look like a regular Maven build.
+The Angular CLI can be used to generate new application scaffolding, as well as other things. It's a useful starting point, but you could at this point grab any existing Angular app and put it in the same place. We want to work with the Angular app in the top level directory to keep all the tools and IDEs happy, but we also want make it look like a regular Maven build.
 
-Create the app with the CLI and move it to `src/main`:
+Create the app with the CLI and move it to the top level:
 
 ```
 $ ./ng new client
 $ rm -rf client/node* client/src/favicon.ico
-$ mv client src/main
-$ sed -i -e 's,dist,../../../target/classes/static,' src/main/client/.angular-cli.json
-$ mv ng npm src/main/client
+$ cat client/.gitignore >> gitignore
+$ rm client/.gitignore
+$ cp -rf client/* .
+$ cp client/.??* .
+$ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
 ```
 
-We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `.angular-cli.json` (a bit like a `pom.cxml` for the Angular CLI app) to point the output from the ANgular build to a location that will be packaged in our JAR file.
+We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `.angular-cli.json` (a bit like a `pom.xml` for the Angular CLI app) to point the output from the ANgular build to a location that will be packaged in our JAR file.
 
 ## Building
 
-Add this to the frontend plugin configuration:
-
-```
-<workingDirectory>src/main/client</workingDirectory>
-```
-
-and add an execution to install the modules used in the application:
+Add an execution to install the modules used in the application:
 
 ```
 <execution>
@@ -137,7 +133,7 @@ and add an execution to install the modules used in the application:
 Install the modules again using `./mvnw generate-resources`.
 
 ```
-$ src/main/client/ng version
+$ ng version
 _                      _                 ____ _     ___
    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
@@ -165,7 +161,7 @@ typescript: 2.3.4
 At this point, the tests work:
 
 ```
-$ src/main/client/ng e2e
+$ ./ng e2e
 ..
 [13:59:46] I/direct - Using ChromeDriver directly...
 Jasmine started
@@ -199,7 +195,7 @@ then the client app will be compiled during the Maven build.
 You can build continuously with
 
 ```
-$ src/main/client/ng build --watch
+$ ./ng build --watch
 ```
 
 Updates are built (quickly) and pushed to `target/classes` where they can be picked up by Spring Boot. Your IDE might need to be tweaked to pick up the changes automatically (Spring Tool Suite does it out of the box).
@@ -237,7 +233,7 @@ With that in place your `Tasks->Run Task...` menu should include the `ng-watch` 
 You can add basic Twitter Bootstrap features to make the app look a bit less dull (taken from [this blog](https://medium.com/codingthesmartway-com-blog/using-bootstrap-with-angular-c83c3cee3f4a)):
 
 ```
-$ src/main/client/npm install bootstrap@3 jquery --save
+$ ./npm install bootstrap@3 jquery --save
 ```
 
 and update `.angular-cli.json` to add the new content:
