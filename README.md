@@ -310,7 +310,7 @@ public class DemoApplication {
 }
 ```
 
-If you look at the source code [in Github](https://github.com/dsyer/spring-boot-angular) you will also notice that there is a test for the backend interaction in `app.component.spec.ts`. The `pom.xml` has been modified to run the Angular e2e tests at the same time as the Java tests.
+If you look at the source code [in Github](https://github.com/dsyer/spring-boot-angular) you will also notice that there is a test for the backend interaction in `app.component.spec.ts` (thanks to [this Ninja Squad blog](http://blog.ninja-squad.com/2017/07/17/http-client-module/)). The `pom.xml` has been modified to run the Angular e2e tests at the same time as the Java tests.
 
 ## Conclusion
 
