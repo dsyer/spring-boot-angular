@@ -84,7 +84,7 @@ Then create a similar wrapper for the CLI itself, and test it quickly:
 $ cat > ng
 #!/bin/sh
 cd $(dirname $0)
-PATH="$PWD/node/":$PATH
+PATH="$PWD/node/":$PWD:$PATH
 node_modules/@angular/cli/bin/ng "$@"
 $ chmod +x ng
 $ ./ng --version
