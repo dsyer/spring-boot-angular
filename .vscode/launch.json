@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)-DemoApplication<angular-maven>",
+            "name": "Debug (Launch)",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.example.demo.DemoApplication",
