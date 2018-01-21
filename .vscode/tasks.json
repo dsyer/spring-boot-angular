@@ -7,6 +7,11 @@
             "label": "ng-build",
             "type": "shell",
             "command": "src/main/client/ng build"
+        },
+        {
+            "label": "ng-watch",
+            "type": "shell",
+            "command": "src/main/client/ng build --watch"
         }
     ]
 }

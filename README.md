@@ -220,12 +220,17 @@ What VSCode doesn't have currently is automatic detection of `npm` build tools i
             "label": "ng-build",
             "type": "shell",
             "command": "src/main/client/ng build"
+        },
+        {
+            "label": "ng-watch",
+            "type": "shell",
+            "command": "src/main/client/ng build --watch"
         }
     ]
 }
 ```
 
-With that in place your `Tasks->Run Task...` menu should include the `ng-build` option, and it will run the angular build for you. You could add other entries for running tests.
+With that in place your `Tasks->Run Task...` menu should include the `ng-watch` option, and it will run the angular build for you and re-compile if you make changes. You could add other entries for running tests.
 
 ## Adding Bootstrap
 
