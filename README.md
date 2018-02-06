@@ -42,10 +42,6 @@ Installing `npm` is fraught with issues, including but not limited to how to get
                 </execution>
             </executions>
         </plugin>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
     </plugins>
 </build>
 ```
@@ -107,15 +103,15 @@ Create the app with the CLI and move it to the top level:
 
 ```
 $ ./ng new client
-$ rm -rf client/node* client/src/favicon.ico
-$ cat client/.gitignore >> gitignore
-$ rm client/.gitignore
+$ cat client/.gitignore >> .gitignore
+$ rm -rf client/node* client/src/favicon.ico client/.gitignore client/.git
+$ sed -i '/node_/anode/' .gitignore
 $ cp -rf client/* .
 $ cp client/.??* .
 $ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
 ```
 
-We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `.angular-cli.json` (a bit like a `pom.xml` for the Angular CLI app) to point the output from the ANgular build to a location that will be packaged in our JAR file.
+We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `.angular-cli.json` (a bit like a `pom.xml` for the Angular CLI app) to point the output from the Angular build to a location that will be packaged in our JAR file.
 
 ## Building
 
@@ -206,7 +202,7 @@ That's it really, but we can quickly look into a couple of extra things that wil
 
 https://code.visualstudio.com/[Microsoft VSCode] is quite a good tool for developing JavaScript applications, and it also has good support for Java and Spring Boot. If you install the "Java Extension Pack" (from Microsoft), the "Angular Essentials" (from Jon Papa) and the "Latest TypeScript and JavaScript Grammar" (from Microsoft) you will be able to do code completion and source navigation in the Angular app (all those extensions and discoverable from the IDE). There are also some Spring Boot features that you need to download and install (in Extensions view click on top right and choose `Install from VSIX...`) at http://dist.springsource.com/snapshot/STS4/nightly-distributions.html.
 
-What VSCode doesn't have currently is automatic detection of `npm` build tools in *subdirectories* (and ours is in `src/main/client`). So to build from the IDE you need to add a `.vscode/tasks.json` something like this:
+What VSCode doesn't have currently is automatic detection of `npm` build tools in the project itself (and ours is in `.` so we need it). So to build from the IDE you might need to add a `.vscode/tasks.json` something like this:
 
 ```
 {
@@ -215,12 +211,12 @@ What VSCode doesn't have currently is automatic detection of `npm` build tools i
         {
             "label": "ng-build",
             "type": "shell",
-            "command": "src/main/client/ng build"
+            "command": "./ng build"
         },
         {
             "label": "ng-watch",
             "type": "shell",
-            "command": "src/main/client/ng build --watch"
+            "command": "./ng build --watch"
         }
     ]
 }
