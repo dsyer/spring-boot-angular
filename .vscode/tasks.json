@@ -6,12 +6,12 @@
         {
             "label": "ng-build",
             "type": "shell",
-            "command": "src/main/client/ng build"
+            "command": "./ng build"
         },
         {
             "label": "ng-watch",
             "type": "shell",
-            "command": "src/main/client/ng build --watch"
+            "command": "./ng build --watch"
         }
     ]
 }
