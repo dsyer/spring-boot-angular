@@ -80,7 +80,7 @@ Then create a similar wrapper for the CLI itself, and test it quickly:
 $ cat > ng
 #!/bin/sh
 cd $(dirname $0)
-PATH="$PWD/node/":$PWD:$PATH
+PATH="$PWD/node/":"$PWD":$PATH
 node_modules/@angular/cli/bin/ng "$@"
 $ chmod +x ng
 $ ./ng --version
@@ -102,12 +102,13 @@ The Angular CLI can be used to generate new application scaffolding, as well as 
 Create the app with the CLI and move it to the top level:
 
 ```
-$ ./ng new client
+$ ./ng new client # add --minimal here if you want to skip tests
 $ cat client/.gitignore >> .gitignore
 $ rm -rf client/node* client/src/favicon.ico client/.gitignore client/.git
 $ sed -i '/node_/anode/' .gitignore
 $ cp -rf client/* .
 $ cp client/.??* .
+$ rm -rf client
 $ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
 ```
 
@@ -126,10 +127,10 @@ Add an execution to install the modules used in the application:
 </execution>
 ```
 
-Install the modules again using `./mvnw generate-resources`.
+Install the modules again using `./mvnw generate-resources` and check the result (the versions will differ for you).
 
 ```
-$ ng version
+$ ./ng version
 _                      _                 ____ _     ___
    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
@@ -186,6 +187,18 @@ and if you add this as well:
 
 then the client app will be compiled during the Maven build.
 
+### Stabilize the Build
+
+If you want a stable build you should put a `^` before the version of `@angular/cli` in your `package.json`. It isn't added by default when you do `ng new`, but it protects you from changes in the CLI. Example:
+
+.package.json
+```
+...
+"devDependencies": {
+    "@angular/cli": "^1.4.9",
+...
+```
+
 ## Development Time
 
 You can build continuously with
@@ -232,18 +245,32 @@ You can add basic Twitter Bootstrap features to make the app look a bit less dul
 $ ./npm install bootstrap@3 jquery --save
 ```
 
-and update `.angular-cli.json` to add the new content:
+and update `.angular-cli.json` to add the new content to the app with "root=src". Before:
 
 ```
   "styles": [
-"styles.css",
-"../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    "styles.css"
+  ],
+  "scripts": [],
+```
+
+and after:
+
+```
+  "styles": [
+    "styles.css",
+    "../node_modules/bootstrap/dist/css/bootstrap.min.css"
   ],
   "scripts": [
-"../node_modules/jquery/dist/jquery.min.js",
-"../node_modules/bootstrap/dist/js/bootstrap.min.js"
+    "../node_modules/jquery/dist/jquery.min.js",
+    "../node_modules/bootstrap/dist/js/bootstrap.min.js"
   ],
 ```
+
+Here's a magic command line to do that:
+
+```
+$ cat .angular-cli.json | jq '.apps[0].styles[1] |= . + "../node_modules/bootstrap/dist/css/bootstrap.min.css"' | jq '.apps[0] += {scripts:["../node_modules/jquery/dist/jquery.min.js","../node_modules/bootstrap/dist/js/bootstrap.min.js"]}' > .tmp && mv .tmp .angular-cli.json
 
 ## Basic Angular Features
 
@@ -290,6 +317,9 @@ Notice how the `AppComponent` has an `HttpClient` injected into its constructor.
 app.module.ts
 ```javascript
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
