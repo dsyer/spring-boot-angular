@@ -100,10 +100,15 @@ os: linux x64
 
 The Angular CLI can be used to generate new application scaffolding, as well as other things. It's a useful starting point, but you could at this point grab any existing Angular app and put it in the same place. We want to work with the Angular app in the top level directory to keep all the tools and IDEs happy, but we also want make it look like a regular Maven build.
 
-Create the app with the CLI and move it to the top level:
+Create the app with the CLI:
 
 ```
 $ ./ng new client # add --minimal here if you want to skip tests
+```
+
+and then move it into the root of the propject:
+
+```
 $ cat client/.gitignore >> .gitignore
 $ rm -rf client/node* client/src/favicon.ico client/.gitignore client/.git
 $ sed -i '/node_/anode/' .gitignore
