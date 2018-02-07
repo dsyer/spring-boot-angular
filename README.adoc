@@ -1,10 +1,10 @@
-# Creating a New Application with Spring Boot and Angular
+= Creating a New Application with Spring Boot and Angular
 
 Spring Boot works great as a back end for an Angular application but it can be difficult to get the ball rolling. Most Spring users are comfortable with Java and the tools that are used to create and build the backend server. The front end can be written with plain old JavaScript as long as it is relatively simple, and you are willing to search for the rare examples and tutorials in this style. But these days you are much more likely to find documentation and tutorials that use tools like `Typescript`, `node.js`, `npm` and the Angular CLI.
 
 This article shows you how to do that and keep your Spring Boot application intact. Much of the advice would apply equally well to other front end frameworks (anything that can be built using `npm` or similar). We use Maven, but similar tools are available for Gradle users. The goal is to have a single application that has Spring Boot and Angular, that can be built and developed by anyone who has knowledge of either ecosystem, and does not feel awkward or unidiomatic to either.
 
-## Create a Spring Boot Application
+== Create a Spring Boot Application
 
 Whatever you normally do to create a new Spring Boot application, do that. For example you could use your IDE features. Or you could do it on the command line:
 
@@ -15,10 +15,11 @@ $ ./mvnw install
 
 Now we'll take that application and add some Angular scaffolding. Before we can do anything with Angular, we have to install `npm`.
 
-## Install Npm Locally
+== Install Npm Locally
 
-Installing `npm` is fraught with issues, including but not limited to how to get it working as part of your build automation. We are going to use the excellent [Maven Frontend Plugin](https://github.com/eirslett/frontend-maven-plugin) from Eirik Sletteberg. The first step is to add it to our `pom.xml`:
+Installing `npm` is fraught with issues, including but not limited to how to get it working as part of your build automation. We are going to use the excellent https://github.com/eirslett/frontend-maven-plugin[Maven Frontend Plugin] from Eirik Sletteberg. The first step is to add it to our `pom.xml`:
 
+.pom.xml
 ```
 <build>
     <plugins>
@@ -55,7 +56,7 @@ $ ls node*
 
 Loads of stuff has been installed in the top level directory. Once the downloaded files are cached in your local Maven repository, it won't take long to run this for every build.
 
-## Install Angular CLI
+== Install Angular CLI
 
 To build an Angular app these days it really helps to use the CLI provided by the Angular team. We can install it using the `npm` that we just got using the plugin. First create a convenient script to run `npm` from the local installation (in case you have others on your path):
 
@@ -95,7 +96,7 @@ node: 8.8.1
 os: linux x64
 ```
 
-## Create an Angular App
+== Create an Angular App
 
 The Angular CLI can be used to generate new application scaffolding, as well as other things. It's a useful starting point, but you could at this point grab any existing Angular app and put it in the same place. We want to work with the Angular app in the top level directory to keep all the tools and IDEs happy, but we also want make it look like a regular Maven build.
 
@@ -114,7 +115,7 @@ $ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
 
 We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `.angular-cli.json` (a bit like a `pom.xml` for the Angular CLI app) to point the output from the Angular build to a location that will be packaged in our JAR file.
 
-## Building
+== Building
 
 Add an execution to install the modules used in the application:
 
@@ -131,7 +132,7 @@ Install the modules again using `./mvnw generate-resources` and check the result
 
 ```
 $ ./ng version
-_                      _                 ____ _     ___
+    _                      _                 ____ _     ___
    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
@@ -187,7 +188,7 @@ and if you add this as well:
 
 then the client app will be compiled during the Maven build.
 
-### Stabilize the Build
+=== Stabilize the Build
 
 If you want a stable build you should put a `^` before the version of `@angular/cli` in your `package.json`. It isn't added by default when you do `ng new`, but it protects you from changes in the CLI. Example:
 
@@ -199,7 +200,7 @@ If you want a stable build you should put a `^` before the version of `@angular/
 ...
 ```
 
-## Development Time
+== Development Time
 
 You can build continuously with
 
@@ -211,7 +212,7 @@ Updates are built (quickly) and pushed to `target/classes` where they can be pic
 
 That's it really, but we can quickly look into a couple of extra things that will get you off the ground quickly with Spring Boot and Angular.
 
-### VSCode
+=== VSCode
 
 https://code.visualstudio.com/[Microsoft VSCode] is quite a good tool for developing JavaScript applications, and it also has good support for Java and Spring Boot. If you install the "Java Extension Pack" (from Microsoft), the "Angular Essentials" (from Jon Papa) and the "Latest TypeScript and JavaScript Grammar" (from Microsoft) you will be able to do code completion and source navigation in the Angular app (all those extensions and discoverable from the IDE). There are also some Spring Boot features that you need to download and install (in Extensions view click on top right and choose `Install from VSIX...`) at http://dist.springsource.com/snapshot/STS4/nightly-distributions.html.
 
@@ -237,9 +238,9 @@ What VSCode doesn't have currently is automatic detection of `npm` build tools i
 
 With that in place your `Tasks->Run Task...` menu should include the `ng-watch` option, and it will run the angular build for you and re-compile if you make changes. You could add other entries for running tests.
 
-## Adding Bootstrap
+== Adding Bootstrap
 
-You can add basic Twitter Bootstrap features to make the app look a bit less dull (taken from [this blog](https://medium.com/codingthesmartway-com-blog/using-bootstrap-with-angular-c83c3cee3f4a)):
+You can add basic Twitter Bootstrap features to make the app look a bit less dull (taken from https://medium.com/codingthesmartway-com-blog/using-bootstrap-with-angular-c83c3cee3f4a[this blog]):
 
 ```
 $ ./npm install bootstrap@3 jquery --save
@@ -271,14 +272,15 @@ Here's a magic command line to do that:
 
 ```
 $ cat .angular-cli.json | jq '.apps[0].styles[1] |= . + "../node_modules/bootstrap/dist/css/bootstrap.min.css"' | jq '.apps[0] += {scripts:["../node_modules/jquery/dist/jquery.min.js","../node_modules/bootstrap/dist/js/bootstrap.min.js"]}' > .tmp && mv .tmp .angular-cli.json
+```
 
-## Basic Angular Features
+== Basic Angular Features
 
-Some basic features are included in the default scaffolding app, including the HTTP client, HTML forms support and navigation using the `Router`. All of them are extremely well documented at [angular.io](https://angular.io), and there are thousands of examples out in the internet of how to use those features.
+Some basic features are included in the default scaffolding app, including the HTTP client, HTML forms support and navigation using the `Router`. All of them are extremely well documented at https://angular.io[angular.io], and there are thousands of examples out in the internet of how to use those features.
 
 As an example, lets look at how to add an HTTP Client call, and hook it up to a Spring `@RestController`. In the front end `app-root` component we can add some placeholders for dynamic content:
 
-app.component.html:
+.app.component.html:
 ```html
 <div style="text-align:center"class="container">
   <h1>
@@ -293,7 +295,7 @@ app.component.html:
 
 so we are looking for a `data` object in the scope of the component:
 
-app.component.ts:
+.app.component.ts:
 ```javascript
 import { Component } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
@@ -314,7 +316,7 @@ export class AppComponent {
 
 Notice how the `AppComponent` has an `HttpClient` injected into its constructor. In the module definition we need to import the `HttpClientModule` as well, to enable the dependency injection:
 
-app.module.ts
+.app.module.ts
 ```javascript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -338,7 +340,7 @@ export class AppModule { }
 
 In our Spring Boot application we need to service the `/resource` request and return an object with the right keys for the client:
 
-DemoApplication.java:
+.DemoApplication.java:
 ```java
 @SpringBootApplication
 @Controller
@@ -358,8 +360,8 @@ public class DemoApplication {
 }
 ```
 
-If you look at the source code [in Github](https://github.com/dsyer/spring-boot-angular) you will also notice that there is a test for the backend interaction in `app.component.spec.ts` (thanks to [this Ninja Squad blog](http://blog.ninja-squad.com/2017/07/17/http-client-module/)). The `pom.xml` has been modified to run the Angular e2e tests at the same time as the Java tests.
+If you look at the source code https://github.com/dsyer/spring-boot-angular[in Github] you will also notice that there is a test for the backend interaction in `app.component.spec.ts` (thanks to http://blog.ninja-squad.com/2017/07/17/http-client-module/[this Ninja Squad blog]). The `pom.xml` has been modified to run the Angular e2e tests at the same time as the Java tests.
 
-## Conclusion
+== Conclusion
 
 We have created a Spring Boot application, added a simple HTTP endpoint to it, and then added a front end to it using Angular. The Angular app is self-contained, so anyone who knows the tools can work with it from its own directory. The Spring Boot application folds the Angular assets into its build and a developer can easily update and test the front end from a regular IDE by running the app in the usual way.
