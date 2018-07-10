@@ -91,9 +91,10 @@ $ ./ng --version
  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
 /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
            |___/
-@angular/cli: 1.4.9
-node: 8.8.1
-os: linux x64
+Angular CLI: 6.0.8
+Node: 9.11.2
+OS: linux x64
+...
 ```
 
 == Create an Angular App
@@ -106,7 +107,7 @@ Create the app with the CLI:
 $ ./ng new client # add --minimal here if you want to skip tests
 ```
 
-and then move it into the root of the propject:
+and then move it into the root of the project:
 
 ```
 $ cat client/.gitignore >> .gitignore
@@ -115,10 +116,10 @@ $ sed -i '/node_/anode/' .gitignore
 $ cp -rf client/* .
 $ cp client/.??* .
 $ rm -rf client
-$ sed -i -e 's,dist,target/classes/static,' .angular-cli.json
+$ sed -i -e 's,dist/client,target/classes/static,' angular.json
 ```
 
-We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `.angular-cli.json` (a bit like a `pom.xml` for the Angular CLI app) to point the output from the Angular build to a location that will be packaged in our JAR file.
+We discarded the node modules that the CLI installed because we want the frontend plugin to do that work for us in an automated build. We also edited the `angular.json` (a bit like a `pom.xml` for the Angular CLI app) to point the output from the Angular build to a location that will be packaged in our JAR file.
 
 == Building
 
@@ -143,22 +144,25 @@ $ ./ng version
  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
 /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
            |___/
-@angular/cli: 1.4.9
-node: 8.8.1
-os: linux x64
-@angular/animations: 4.4.6
-@angular/common: 4.4.6
-@angular/compiler: 4.4.6
-@angular/core: 4.4.6
-@angular/forms: 4.4.6
-@angular/http: 4.4.6
-@angular/platform-browser: 4.4.6
-@angular/platform-browser-dynamic: 4.4.6
-@angular/router: 4.4.6
-@angular/cli: 1.4.9
-@angular/compiler-cli: 4.4.6
-@angular/language-service: 4.4.6
-typescript: 2.3.4
+Angular CLI: 6.0.8
+Node: 9.11.2
+OS: linux x64
+Angular: <error>
+... animations, common, compiler, compiler-cli, core, forms
+... http, language-service, platform-browser
+... platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.6.8
+@angular-devkit/build-angular   <error>
+@angular-devkit/core            0.6.8
+@angular-devkit/schematics      0.6.8
+@angular/cli                    6.0.8
+@schematics/angular             0.6.8
+@schematics/update              0.6.8
+rxjs                            6.2.1
+typescript                      2.7.2
 ```
 
 At this point, the tests work:

@@ -33,6 +33,7 @@ nbdist/
 # dependencies
 /node
 /node_modules
+node/
 
 # IDEs and editors
 /.idea
