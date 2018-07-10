@@ -32,7 +32,7 @@ Installing `npm` is fraught with issues, including but not limited to how to get
             <artifactId>frontend-maven-plugin</artifactId>
             <version>1.6</version>
             <configuration>
-                <nodeVersion>v8.8.1</nodeVersion>
+                <nodeVersion>v8.11.1</nodeVersion>
             </configuration>
             <executions>
                 <execution>
