@@ -255,32 +255,11 @@ You can add basic Twitter Bootstrap features to make the app look a bit less dul
 $ ./npm install bootstrap@3 jquery --save
 ```
 
-and update `.angular-cli.json` to add the new content to the app with "root=src". Before:
+and update `styles.css` to add the new content:
 
-```
-  "styles": [
-    "styles.css"
-  ],
-  "scripts": [],
-```
-
-and after:
-
-```
-  "styles": [
-    "styles.css",
-    "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-  ],
-  "scripts": [
-    "../node_modules/jquery/dist/jquery.min.js",
-    "../node_modules/bootstrap/dist/js/bootstrap.min.js"
-  ],
-```
-
-Here's a magic command line to do that:
-
-```
-$ cat .angular-cli.json | jq '.apps[0].styles[1] |= . + "../node_modules/bootstrap/dist/css/bootstrap.min.css"' | jq '.apps[0] += {scripts:["../node_modules/jquery/dist/jquery.min.js","../node_modules/bootstrap/dist/js/bootstrap.min.js"]}' > .tmp && mv .tmp .angular-cli.json
+.styles.css
+```css
+@import "~bootstrap/dist/css/bootstrap.css";
 ```
 
 == Basic Angular Features
