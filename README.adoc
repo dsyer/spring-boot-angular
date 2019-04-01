@@ -112,7 +112,7 @@ and then move it into the root of the project:
 ```
 $ cat client/.gitignore >> .gitignore
 $ rm -rf client/node* client/src/favicon.ico client/.gitignore client/.git
-$ sed -i '/node_/anode/' .gitignore
+$ sed -i -e 's/node_/anode/' .gitignore
 $ cp -rf client/* .
 $ cp client/.??* .
 $ rm -rf client
