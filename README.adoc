@@ -75,6 +75,10 @@ and then run it to install the CLI:
 $ ./npm install @angular/cli
 ```
 
+NOTE: Windows users can find a similar looking `npm.cmd` script in
+`node/node_modules/npm/bin`. If you copy it to the root of the project,
+and edit to match the local paths, you can use it in the same way.
+
 Then create a similar wrapper for the CLI itself, and test it quickly:
 
 ```
@@ -96,6 +100,9 @@ Node: 9.11.2
 OS: linux x64
 ...
 ```
+
+NOTE: Windows user can try the same trick with `ng.cmd` as with
+`npm.cmd` to get a local command to run the Angular CLI.
 
 == Create an Angular App
 
