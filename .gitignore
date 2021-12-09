@@ -59,9 +59,7 @@ node/
 npm-debug.log
 testem.log
 /typings
-
-# e2e
-/e2e/*.map
+.angular/
 
 # System Files
 .DS_Store

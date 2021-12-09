@@ -86,7 +86,7 @@ $ cat > ng
 #!/bin/sh
 cd $(dirname $0)
 PATH="$PWD/node/":"$PWD":$PATH
-node_modules/@angular/cli/bin/ng "$@"
+node_modules/@angular/cli/bin/ng.js "$@"
 $ chmod +x ng
 $ ./ng --version
     _                      _                 ____ _     ___
