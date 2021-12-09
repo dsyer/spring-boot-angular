@@ -24,16 +24,23 @@ dist/
 nbdist/
 .nb-gradle/# See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+node/
+bin/
+
 # compiled output
-/target
 /dist
 /tmp
 /out-tsc
+# Only exists if Bazel was run
+/bazel-out
 
 # dependencies
-/node
 /node_modules
-node/
+
+# profiling files
+chrome-profiler-events*.json
 
 # IDEs and editors
 /.idea
@@ -50,16 +57,18 @@ node/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history/*
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
 /libpeerconnection.log
 npm-debug.log
+yarn-error.log
 testem.log
 /typings
-.angular/
 
 # System Files
 .DS_Store

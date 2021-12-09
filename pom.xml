@@ -87,7 +87,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run-script test</arguments>
+                            <arguments>run-script e2e</arguments>
                         </configuration>
                         <phase>test</phase>
                     </execution>

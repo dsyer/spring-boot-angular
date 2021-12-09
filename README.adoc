@@ -119,7 +119,6 @@ and then move it into the root of the project:
 ```
 $ cat client/.gitignore >> .gitignore
 $ rm -rf client/node* client/src/favicon.ico client/.gitignore client/.git
-$ sed -i -e 's/node_/anode/' .gitignore
 $ cp -rf client/* .
 $ cp client/.??* .
 $ rm -rf client
@@ -151,45 +150,39 @@ $ ./ng version
  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
 /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
            |___/
-Angular CLI: 7.3.7
-Node: 9.11.2
+Angular CLI: 13.0.4
+Node: 16.13.1
 OS: linux x64
-Angular: 7.2.11
+Angular: 13.0.3
 ... animations, common, compiler, compiler-cli, core, forms
-... language-service, platform-browser, platform-browser-dynamic
-... router
+... platform-browser, platform-browser-dynamic, router
 
 Package                           Version
 -----------------------------------------------------------
-@angular-devkit/architect         0.13.7
-@angular-devkit/build-angular     0.13.7
-@angular-devkit/build-optimizer   0.13.7
-@angular-devkit/build-webpack     0.13.7
-@angular-devkit/core              7.3.7
-@angular-devkit/schematics        7.3.7
-@angular/cli                      7.3.7
-@ngtools/webpack                  7.3.7
-@schematics/angular               7.3.7
-@schematics/update                0.13.7
-rxjs                              6.3.3
-typescript                        3.2.4
-webpack                           4.29.0
+@angular-devkit/architect       0.1300.4
+@angular-devkit/build-angular   13.0.4
+@angular-devkit/core            13.0.4
+@angular-devkit/schematics      13.0.4
+@angular/cli                    13.0.4
+@schematics/angular             13.0.4
+rxjs                            7.4.0
+typescript                      4.4.4
 ```
 
 At this point, the tests work:
 
 ```
-$ ./ng e2e
-..
-[13:59:46] I/direct - Using ChromeDriver directly...
-Jasmine started
-
-  client App
-✓ should display welcome message
-
-Executed 1 of 1 spec SUCCESS in 0.718 sec.
-[13:59:48] I/launcher - 0 instance(s) of WebDriver still running
-[13:59:48] I/launcher - chrome #01 passed
+$ ./ng test
+Generating browser application bundles (phase: setup)...09 12 2021 13:57:18.567:WARN [karma]: No captured browser, open http://localhost:9876/
+09 12 2021 13:57:18.576:INFO [karma-server]: Karma v6.3.9 server started at http://localhost:9876/
+09 12 2021 13:57:18.576:INFO [launcher]: Launching browsers Chrome with concurrency unlimited
+09 12 2021 13:57:18.590:INFO [launcher]: Starting browser Chrome
+✔ Browser application bundle generation complete.
+09 12 2021 13:57:21.749:WARN [karma]: No captured browser, open http://localhost:9876/
+09 12 2021 13:57:21.797:INFO [Chrome 94.0.4606.71 (Linux x86_64)]: Connected on socket Fh4AKRcSDz0TEUkyAAAB with id 93745390
+✔ Browser application bundle generation complete.
+Chrome 94.0.4606.71 (Linux x86_64): Executed 3 of 3 SUCCESS (0.133 secs / 0.119 secs)
+TOTAL: 3 SUCCESS
 ```
 
 and if you add this as well:
@@ -216,7 +209,7 @@ If you want a stable build you should put a `^` before the version of `@angular/
 ```
 ...
 "devDependencies": {
-    "@angular/cli": "^1.4.9",
+    "@angular/cli": "^13.0.4",
 ...
 ```
 
@@ -263,7 +256,7 @@ With that in place your `Tasks->Run Task...` menu should include the `ng-watch` 
 You can add basic Twitter Bootstrap features to make the app look a bit less dull (taken from https://medium.com/codingthesmartway-com-blog/using-bootstrap-with-angular-c83c3cee3f4a[this blog]):
 
 ```
-$ ./npm install bootstrap@3 jquery --save
+$ ./npm install bootstrap --save
 ```
 
 and update `styles.css` to add the new content:
@@ -306,7 +299,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent {
   title = 'Demo';
-  data = {};
+  data = {}  as any;
   constructor(private http: HttpClient) {
     http.get('resource').subscribe(data => this.data = data);
   }
